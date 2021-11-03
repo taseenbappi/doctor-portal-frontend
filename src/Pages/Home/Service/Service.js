@@ -10,7 +10,7 @@ import { margin } from '@mui/system';
 const Service = (props) => {
     const { name, description, img } = props.service;
     return (
-        <Grid xs={4} sm={4} md={4}>
+        <Grid item xs={4} sm={4} md={4}>
 
             <Card sx={{ minWidth: 300, border: 0, boxShadow: 0, gap: 2 }}>
                 <CardMedia
@@ -28,9 +28,7 @@ const Service = (props) => {
                         {description}
                     </Typography>
                 </CardContent>
-                <CardActions>
-                    <Button size="small">Learn More</Button>
-                </CardActions>
+
             </Card>
         </Grid>
     );

@@ -19,8 +19,15 @@ const style = {
     p: 4,
 };
 
-const BookingModal = ({ modalOpen, handleBookingClose, booking }) => {
-    const { name, date } = booking;
+const BookingModal = ({ modalOpen, handleBookingClose, booking, date }) => {
+    const { name, time } = booking;
+
+    const appoinmentFormHangler = e => {
+        alert("Booked!! Successfully");
+        e.preventDefault();
+        handleBookingClose();
+
+    }
 
     return (
         <div>
@@ -39,35 +46,49 @@ const BookingModal = ({ modalOpen, handleBookingClose, booking }) => {
                 <Fade in={modalOpen}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
-                            {name}
+                            Book Your Day
                         </Typography>
-                        <form>
+                        <form onSubmit={appoinmentFormHangler}>
                             <TextField
-
+                                disabled
                                 id="outlined-size-small"
-                                defaultValue="name"
+                                defaultValue={name}
+                                size="small"
+                            />
+                            <TextField
+                                disabled
+                                id="outlined-size-small"
+                                defaultValue={time}
                                 size="small"
                             />
                             <TextField
 
                                 id="outlined-size-small"
-                                defaultValue="name"
+                                defaultValue="Your Name"
                                 size="small"
                             />
                             <TextField
 
                                 id="outlined-size-small"
-                                defaultValue="name"
+                                defaultValue="Your Email"
                                 size="small"
                             />
                             <TextField
 
                                 id="outlined-size-small"
-                                defaultValue="name"
+                                defaultValue="Your Phone Number"
+                                size="small"
+                            />
+                            <TextField
+                                disabled
+                                id="outlined-size-small"
+                                defaultValue={date.toDateString()}
                                 size="small"
                             />
                             <br />
-                            <Button variant="contained">Submit</Button>
+                            <Button
+                                type="submit"
+                                variant="contained">Submit</Button>
 
 
                         </form>

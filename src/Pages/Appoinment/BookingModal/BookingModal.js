@@ -5,6 +5,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 
 const style = {
     position: 'absolute',
@@ -19,7 +20,7 @@ const style = {
 };
 
 const BookingModal = ({ modalOpen, handleBookingClose, booking }) => {
-    const { name } = booking;
+    const { name, date } = booking;
 
     return (
         <div>
@@ -40,9 +41,37 @@ const BookingModal = ({ modalOpen, handleBookingClose, booking }) => {
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             {name}
                         </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
+                        <form>
+                            <TextField
+
+                                id="outlined-size-small"
+                                defaultValue="name"
+                                size="small"
+                            />
+                            <TextField
+
+                                id="outlined-size-small"
+                                defaultValue="name"
+                                size="small"
+                            />
+                            <TextField
+
+                                id="outlined-size-small"
+                                defaultValue="name"
+                                size="small"
+                            />
+                            <TextField
+
+                                id="outlined-size-small"
+                                defaultValue="name"
+                                size="small"
+                            />
+                            <br />
+                            <Button variant="contained">Submit</Button>
+
+
+                        </form>
+
                     </Box>
                 </Fade>
             </Modal>

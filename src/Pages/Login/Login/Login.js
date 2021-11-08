@@ -1,10 +1,14 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
+import useAuth from '../../../Hooks/useAuth';
 import loginImg from "../../../images/login.png";
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
+    const { registerSignInHangler, googleLoginHandler } = useAuth();
+    const location = useLocation();
+    const history = useHistory();
 
     const handleOnChange = e => {
         const field = e.target.name;
@@ -13,13 +17,15 @@ const Login = () => {
         newLoginData[field] = value;
         setLoginData(newLoginData);
         console.log(loginData);
-
-
-
     }
     const userLoginHangler = e => {
-        e.preventDefault();
+
+        registerSignInHangler(loginData.email, loginData.password, location, history);
         alert("Login Successfully!");
+        e.preventDefault();
+    }
+    const handleGoogleSign = () => {
+        googleLoginHandler(location, history);
     }
 
     return (
@@ -61,6 +67,8 @@ const Login = () => {
 
 
                     </form>
+                    <p>----------------OR------------------</p>
+                    <Button onClick={handleGoogleSign} variant="contained" >Google Sign In</Button>
 
                 </Grid>
                 <Grid item xs={12} md={6}>

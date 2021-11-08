@@ -1,12 +1,13 @@
 import { Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import useAuth from '../../../Hooks/useAuth';
 import loginImg from "../../../images/login.png";
 
 const Register = () => {
     const [loginData, setLoginData] = useState({});
     const { registerHangler, isLoading } = useAuth();
+    const history = useHistory();
 
     const handleOnChange = e => {
         const field = e.target.name;
@@ -23,7 +24,7 @@ const Register = () => {
             alert("Password Note Match!");
             return
         }
-        registerHangler(loginData.email, loginData.password);
+        registerHangler(loginData.email, loginData.password, loginData.name, history);
         alert("Register Successfully!");
     }
 
@@ -35,6 +36,14 @@ const Register = () => {
                     {
                         !isLoading &&
                         <form onSubmit={userRegisterHangler}>
+                            <TextField
+                                style={{ width: "75%", mt: 1 }}
+                                id="name"
+                                required
+                                label="your name"
+                                variant="standard"
+                                name="name"
+                                onChange={handleOnChange} />
                             <TextField
                                 style={{ width: "75%", mt: 1 }}
                                 id="email"

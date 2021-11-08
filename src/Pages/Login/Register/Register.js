@@ -1,10 +1,12 @@
-import { Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import useAuth from '../../../Hooks/useAuth';
 import loginImg from "../../../images/login.png";
 
 const Register = () => {
     const [loginData, setLoginData] = useState({});
+    const { registerHangler, isLoading } = useAuth();
 
     const handleOnChange = e => {
         const field = e.target.name;
@@ -17,6 +19,11 @@ const Register = () => {
     }
     const userRegisterHangler = e => {
         e.preventDefault();
+        if (loginData.password !== loginData.password2) {
+            alert("Password Note Match!");
+            return
+        }
+        registerHangler(loginData.email, loginData.password);
         alert("Register Successfully!");
     }
 
@@ -25,50 +32,53 @@ const Register = () => {
             <Grid container spacing={2} >
                 <Grid item xs={12} md={6} sx={{ p: 3, mt: 8 }}  >
                     <Typography variant="body1" gutterBottom>Register</Typography>
-                    <form onSubmit={userRegisterHangler}>
-                        <TextField
-                            style={{ width: "75%", mt: 1 }}
-                            id="email"
-                            required
-                            label="your email"
-                            variant="standard"
-                            name="email"
-                            onChange={handleOnChange} />
+                    {
+                        !isLoading &&
+                        <form onSubmit={userRegisterHangler}>
+                            <TextField
+                                style={{ width: "75%", mt: 1 }}
+                                id="email"
+                                required
+                                label="your email"
+                                variant="standard"
+                                name="email"
+                                onChange={handleOnChange} />
 
-                        <TextField
-                            style={{ width: "75%", mt: 1 }}
-                            type="password"
-                            required
-                            id="password"
-                            label="new password"
-                            variant="standard"
-                            name="password"
-                            onChange={handleOnChange} />
-                        <br />
-                        <TextField
-                            style={{ width: "75%", mt: 1 }}
-                            type="password"
-                            required
-                            id="password2"
-                            label="confirm password"
-                            variant="standard"
-                            name="password2"
-                            onChange={handleOnChange} />
-                        <br />
-                        <br />
-                        <Button
-                            style={{ width: "75%", m: 1 }}
-                            variant="contained"
-                            type="submit">Login</Button>
-
-                        <NavLink style={{ textDecoration: "none" }} to="/login">
+                            <TextField
+                                style={{ width: "75%", mt: 1 }}
+                                type="password"
+                                required
+                                id="password"
+                                label="new password"
+                                variant="standard"
+                                name="password"
+                                onChange={handleOnChange} />
+                            <br />
+                            <TextField
+                                style={{ width: "75%", mt: 1 }}
+                                type="password"
+                                required
+                                id="password2"
+                                label="confirm password"
+                                variant="standard"
+                                name="password2"
+                                onChange={handleOnChange} />
+                            <br />
+                            <br />
                             <Button
+                                style={{ width: "75%", m: 1 }}
+                                variant="contained"
+                                type="submit">Register</Button>
 
-                                variant="text" >Already register? Please login here</Button>
-                        </NavLink>
+                            <NavLink style={{ textDecoration: "none" }} to="/login">
+                                <Button
+
+                                    variant="text" >Already register? Please login here</Button>
+                            </NavLink>
 
 
-                    </form>
+                        </form>}
+                    {isLoading && <CircularProgress />}
 
                 </Grid>
                 <Grid item xs={12} md={6}>

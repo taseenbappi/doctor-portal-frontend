@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -20,15 +20,50 @@ const style = {
     p: 4,
 };
 
-const BookingModal = ({ modalOpen, handleBookingClose, booking, date }) => {
+const BookingModal = ({ modalOpen, handleBookingClose, booking, date, setSuccessBooking }) => {
     const { name, time } = booking;
     const { user } = useAuth();
-    console.log(user);
+    const initialInfo = {
+        patientName: user.displayName,
+        email: user.email,
+        phone: ""
+    }
+    const [appointments, setAppointments] = useState(initialInfo);
+
+    const onBlurHandler = (e) => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newAppoinments = { ...appointments };
+        newAppoinments[field] = value;
+        setAppointments(newAppoinments);
+        console.log(appointments);
+    }
 
     const appoinmentFormHangler = e => {
-        alert("Booked!! Successfully");
+        // collect data client
+        const appointmentsData = {
+            ...appointments,
+            title: name,
+            time,
+            date: date.toLocaleDateString()
+        }
+        // send data to server
+        fetch("http://localhost:5000/appointments", {
+            method: "POST",
+            headers: { "content-type": "application/json", },
+            body: JSON.stringify(appointmentsData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    setSuccessBooking(true)
+                    alert("Booked!! Successfully");
+                    handleBookingClose();
+                }
+            })
+
         e.preventDefault();
-        handleBookingClose();
+
     }
     return (
         <div>
@@ -54,34 +89,40 @@ const BookingModal = ({ modalOpen, handleBookingClose, booking, date }) => {
                                 disabled
                                 id="outlined-size-small"
                                 defaultValue={name}
+                                name="title"
                                 size="small"
                             />
                             <TextField
                                 disabled
                                 id="outlined-size-small"
+                                name="time"
                                 defaultValue={time}
                                 size="small"
                             />
                             <TextField
-
+                                name="patientName"
                                 id="outlined-size-small"
+                                onBlur={onBlurHandler}
                                 defaultValue={user.displayName}
                                 size="small"
                             />
                             <TextField
-
+                                name="email"
                                 id="outlined-size-small"
+                                onBlur={onBlurHandler}
                                 defaultValue={user.email}
                                 size="small"
                             />
                             <TextField
-
+                                name="phone"
                                 id="outlined-size-small"
+                                onBlur={onBlurHandler}
                                 defaultValue="Your Phone Number"
                                 size="small"
                             />
                             <TextField
                                 disabled
+                                name="date"
                                 id="outlined-size-small"
                                 defaultValue={date.toDateString()}
                                 size="small"

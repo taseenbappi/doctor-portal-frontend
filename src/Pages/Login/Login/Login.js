@@ -67,7 +67,7 @@ const Login = () => {
 
 
                     </form>
-                    <p>----------------OR------------------</p>
+                    <Typography component={'span'}>----------------OR------------------</Typography>
                     <Button onClick={handleGoogleSign} variant="contained" >Google Sign In</Button>
 
                 </Grid>

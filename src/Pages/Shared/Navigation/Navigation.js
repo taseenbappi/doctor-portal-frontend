@@ -11,7 +11,6 @@ import useAuth from '../../../Hooks/useAuth';
 
 const Navigation = () => {
     const { user, logOut } = useAuth();
-    console.log(user);
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -31,7 +30,12 @@ const Navigation = () => {
                     <Link to="/appoinment" style={{ textDecoration: "none", color: "white" }}><Button color="inherit">Appoinment</Button></Link>
                     {
                         user.email ?
-                            <Button color="inherit" onClick={logOut}>LogOut</Button>
+                            <Box>
+                                <NavLink to="/dashboard" style={{ textDecoration: "none", color: "white" }}>
+                                    <Button color="inherit">Dashboard</Button>
+                                </NavLink>
+                                <Button color="inherit" onClick={logOut}>LogOut</Button>
+                            </Box>
                             :
                             <NavLink to="/login" style={{ textDecoration: "none", color: "white" }}>
                                 <Button color="inherit">Login</Button>

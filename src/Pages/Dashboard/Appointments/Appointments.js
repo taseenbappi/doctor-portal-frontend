@@ -15,7 +15,8 @@ const Appointments = ({ date }) => {
     const [appointments, setAppointments] = useState([]);
 
     useEffect(() => {
-        const uri = `http://localhost:5000/appointment?email=${user.email}&&date=${date}`;
+        const uri = `http://localhost:5000/appointment?email=${user.email}&&date=${date.toLocaleDateString()}`;
+        console.log(uri);
         fetch(uri)
             .then(res => res.json())
             .then(data => {

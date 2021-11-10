@@ -84,7 +84,7 @@ const useFirebase = () => {
     //save user info to mongodb
     const saveUser = (displayName, email, method) => {
         const userInfo = { displayName, email };
-        fetch('http://localhost:5000/user', {
+        fetch('https://infinite-shore-61650.herokuapp.com/user', {
             method: method,
             headers: {
                 "content-type": "application/json"
@@ -99,7 +99,7 @@ const useFirebase = () => {
     }
     //admin loader
     useEffect(() => {
-        fetch(`http://localhost:5000/user/${user.email}`)
+        fetch(`https://infinite-shore-61650.herokuapp.com/user/${user.email}`)
             .then(res => res.json())
             .then(data => setAdmin(data.admin))
     }, [user.email])

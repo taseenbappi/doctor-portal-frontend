@@ -17,16 +17,16 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router-dom';
 import {
-    BrowserRouter as Router,
     Switch,
     Route,
     Link,
-    useParams,
     useRouteMatch
 } from "react-router-dom";
 import MakeAdmin from '../MakeAdmin/MakeAdmin';
 import AddDoctor from '../AddDoctor/AddDoctor';
 import DashboardHome from '../DashboardHome/DashboardHome';
+import useAuth from '../../../Hooks/useAuth';
+import AdminRoute from '../../PrivateRoute/AdminRoute';
 
 const drawerWidth = 240;
 
@@ -35,6 +35,7 @@ function Dashboard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     let { path, url } = useRouteMatch();
+    const { admin } = useAuth();
 
 
     const handleDrawerToggle = () => {
@@ -50,7 +51,7 @@ function Dashboard(props) {
             <br />
             <Link to={`${url}/makeAdmin`}>Make Admin</Link>
             <br />
-            <Link to={`${url}/addDoctor`}>Add Doctor</Link>
+            {admin && <Link to={`${url}/addDoctor`}>Add Doctor</Link>}
             <br />
             <Divider />
             <List>
@@ -137,9 +138,9 @@ function Dashboard(props) {
                     <Route path={`${path}/dashboardHome`}>
                         <DashboardHome></DashboardHome>
                     </Route>
-                    <Route path={`${path}/makeAdmin`}>
+                    <AdminRoute path={`${path}/makeAdmin`}>
                         <MakeAdmin></MakeAdmin>
-                    </Route>
+                    </AdminRoute>
                     <Route path={`${path}/addDoctor`}>
                         <AddDoctor></AddDoctor>
                     </Route>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile, getIdToken } from "firebase/auth";
 import initializeAtuhentication from "../Pages/Login/Firebase/firebase.init";
 
 initializeAtuhentication();
@@ -10,6 +10,8 @@ const useFirebase = () => {
     const [user, setUser] = useState({});
     const [error, setError] = useState('');
     const [isLoading, setIsloading] = useState(true);
+    const [admin, setAdmin] = useState(false);
+    const [token, setToken] = useState("");
 
     //user register handler
     const registerHangler = (email, password, name, history) => {
@@ -95,7 +97,12 @@ const useFirebase = () => {
             })
 
     }
-
+    //admin loader
+    useEffect(() => {
+        fetch(`http://localhost:5000/user/${user.email}`)
+            .then(res => res.json())
+            .then(data => setAdmin(data.admin))
+    }, [user.email])
 
     //auth observer
     useEffect(() => {
@@ -103,6 +110,10 @@ const useFirebase = () => {
             if (user) {
 
                 setUser(user);
+                getIdToken(user)
+                    .then(idToken => {
+                        setToken(idToken);
+                    })
 
             } else {
                 // User is signed out
@@ -113,6 +124,8 @@ const useFirebase = () => {
         });
         return () => unsubscribe;
     }, [])
+
+
 
     //user Logout handler
     const logOut = () => {
@@ -131,7 +144,9 @@ const useFirebase = () => {
         logOut,
         user,
         error,
-        isLoading
+        isLoading,
+        admin,
+        token
     };
 
 }
